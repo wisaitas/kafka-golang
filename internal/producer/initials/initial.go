@@ -1,0 +1,5 @@
+package initials
+
+func Initial() {
+
+}
