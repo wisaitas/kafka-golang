@@ -1,0 +1,5 @@
+server:
+  port: 8080
+  brokers:
+    - localhost:9092
+  topic: test

@@ -1,6 +1,6 @@
 package main
 
-import producer_initials "github.com/wisaitas/kafka-golang/internal/producer/initials"
+import "github.com/wisaitas/kafka-golang/internal/producer/initials"
 
 // createTopic creates a topic if it doesn't exist
 // func createTopic(brokerAddr, topic string, partitions int) {
@@ -77,5 +77,5 @@ import producer_initials "github.com/wisaitas/kafka-golang/internal/producer/ini
 // }
 
 func main() {
-	producer_initials.Initial()
+	initials.InitializeApp()
 }
