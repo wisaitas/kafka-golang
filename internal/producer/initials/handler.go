@@ -10,6 +10,6 @@ func newHandler(
 	service *service,
 ) *handler {
 	return &handler{
-		producerHandler: handlers.NewProducerHandler(service),
+		producerHandler: handlers.NewProducerHandler(service.producerService),
 	}
 }
