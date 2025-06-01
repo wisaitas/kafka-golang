@@ -6,8 +6,10 @@ type service struct {
 	producerService services.ProducerService
 }
 
-func newService() *service {
+func newService(
+	util *util,
+) *service {
 	return &service{
-		producerService: services.NewProducerService(),
+		producerService: services.NewProducerService(util.producer),
 	}
 }

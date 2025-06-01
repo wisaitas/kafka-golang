@@ -16,7 +16,6 @@ func mappingHeader(headers []Header) []kafka.Header {
 
 func mappingMessage(message Message) kafka.Message {
 	return kafka.Message{
-		Topic:         message.Topic,
 		Key:           message.Key,
 		Value:         message.Value,
 		Partition:     message.Partition,

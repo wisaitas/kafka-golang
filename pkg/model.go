@@ -8,6 +8,7 @@ type Header struct {
 }
 
 type Message struct {
+	Brokers       []string
 	Topic         string
 	Partition     int
 	Offset        int64

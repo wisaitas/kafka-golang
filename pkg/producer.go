@@ -2,27 +2,36 @@ package pkg
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/segmentio/kafka-go"
 )
 
-type Producer interface {
+type ProducerUtil interface {
 	SendMessage(ctx context.Context, message Message) error
 }
 
-type producer struct {
-	producer *kafka.Writer
+type producerUtil struct {
 }
 
-func NewProducer(brokers []string, topic string) Producer {
-	return &producer{
-		producer: kafka.NewWriter(kafka.WriterConfig{
-			Brokers: brokers,
-			Topic:   topic,
-		}),
+func NewProducerUtil() ProducerUtil {
+	return &producerUtil{}
+}
+
+func (p *producerUtil) SendMessage(ctx context.Context, message Message) error {
+	writer := &kafka.Writer{
+		Addr:     kafka.TCP(message.Brokers...),
+		Topic:    message.Topic,
+		Balancer: &kafka.LeastBytes{}, // ใช้ LeastBytes balancer สำหรับการกระจาย message
 	}
-}
+	defer writer.Close()
 
-func (p *producer) SendMessage(ctx context.Context, message Message) error {
-	return p.producer.WriteMessages(ctx, mappingMessage(message))
+	kafkaMessage := mappingMessage(message)
+
+	err := writer.WriteMessages(ctx, kafkaMessage)
+	if err != nil {
+		return fmt.Errorf("failed to send message to Kafka: %w", err)
+	}
+
+	return nil
 }

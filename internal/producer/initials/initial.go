@@ -8,6 +8,7 @@ import (
 	"syscall"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/wisaitas/kafka-golang/internal/producer"
 	"github.com/wisaitas/share-pkg/config"
 )
@@ -22,7 +23,10 @@ func init() {
 func InitializeApp() {
 	server := fiber.New()
 
-	service := newService()
+	server.Use(logger.New())
+
+	util := newUtil()
+	service := newService(util)
 	handler := newHandler(service)
 
 	newRoute(server, handler)
